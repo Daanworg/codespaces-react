@@ -1,0 +1,82 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-rag-webhook
+  namespace: '164738887219'
+  selfLink: >-
+    /apis/serving.knative.dev/v1/namespaces/164738887219/services/cloud-rag-webhook
+  uid: 04fe13c8-42ab-48c7-9a44-379079414aad
+  resourceVersion: AAYvHflk4Gc
+  generation: 9
+  creationTimestamp: '2025-02-27T06:27:02.966878Z'
+  labels:
+    commit-sha: 07282440e8ac1233d15e267292f692f02988aef4
+    gcb-build-id: 16863c51-6f73-441f-a0b9-f77a1c029f3b
+    gcb-trigger-id: 8085aebe-dc38-48aa-9a74-7e1191c04718
+    gcb-trigger-region: global
+    managed-by: gcp-cloud-build-deploy-cloud-run
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    serving.knative.dev/creator: jamzithnma0@gmail.com
+    serving.knative.dev/lastModifier: jamzithnma0@gmail.com
+    run.googleapis.com/binary-authorization: default
+    run.googleapis.com/client-name: gcloud
+    run.googleapis.com/client-version: 511.0.0
+    run.googleapis.com/operation-id: 9f6848ad-0c6b-4b67-893c-b91d42bc9aca
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+    run.googleapis.com/urls: >-
+      ["https://cloud-rag-webhook-164738887219.us-central1.run.app","https://cloud-rag-webhook-egbhb67dfa-uc.a.run.app"]
+spec:
+  template:
+    metadata:
+      labels:
+        client.knative.dev/nonce: bkrglgavck
+        commit-sha: 07282440e8ac1233d15e267292f692f02988aef4
+        gcb-build-id: 16863c51-6f73-441f-a0b9-f77a1c029f3b
+        gcb-trigger-id: 8085aebe-dc38-48aa-9a74-7e1191c04718
+        gcb-trigger-region: global
+        managed-by: gcp-cloud-build-deploy-cloud-run
+        run.googleapis.com/startupProbeType: Default
+      annotations:
+        autoscaling.knative.dev/maxScale: '100'
+        run.googleapis.com/client-name: gcloud
+        run.googleapis.com/client-version: 511.0.0
+        run.googleapis.com/startup-cpu-boost: 'true'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: summary-webhook-sa@rag-data-processor.iam.gserviceaccount.com
+      containers:
+      - name: placeholder-1
+        image: >-
+          us-central1-docker.pkg.dev/rag-data-processor/cloud-run-source-deploy/cloud-rag-webhook/cloud-rag-webhook:07282440e8ac1233d15e267292f692f02988aef4
+        ports:
+        - name: http1
+          containerPort: 8080
+        env:
+        - name: BQ_DATASET
+          value: summary_dataset
+        - name: BQ_TABLE
+          value: summaries
+        - name: DOCAI_LOCATION
+          value: us
+        - name: DOCAI_PROCESSOR
+          value: projects/rag-data-processor/locations/us/processors/2a004411597fc691
+        - name: LOG_EXECUTION_ID
+          value: 'true'
+        - name: OUTPUT_BUCKET
+          value: summary-main-rag-data-processor
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          timeoutSeconds: 240
+          periodSeconds: 240
+          failureThreshold: 1
+          tcpSocket:
+            port: 8080
+  traffic:
+  - percent: 100
+    latestRevision: true
