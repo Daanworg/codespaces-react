@@ -16,9 +16,9 @@ import logging
 import os
 import re
 import uuid
-from collections.abc import Iterator, List
+from collections.abc import Iterator
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 import functions_framework
 from cloudevents.http import CloudEvent
