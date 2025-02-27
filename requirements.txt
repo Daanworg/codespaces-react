@@ -1,0 +1,9 @@
+flask==3.0.3
+functions-framework==3.5.0
+google-cloud-aiplatform==1.51.0
+google-cloud-documentai==2.27.0
+google-cloud-bigquery==3.22.0
+google-cloud-storage==2.16.0
+langchain>=0.1.4
+regex>=2023.10.3
+uuid>=1.30
