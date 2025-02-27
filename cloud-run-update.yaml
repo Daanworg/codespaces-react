@@ -1,0 +1,37 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-rag-webhook
+  namespace: '164738887219'
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '100'
+        run.googleapis.com/startup-cpu-boost: 'true'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      serviceAccountName: summary-webhook-sa@rag-data-processor.iam.gserviceaccount.com
+      containers:
+      - name: placeholder-1
+        env:
+        - name: BQ_DATASET
+          value: summary_dataset
+        - name: BQ_TABLE
+          value: summaries
+        - name: DOCAI_LOCATION
+          value: us
+        - name: DOCAI_PROCESSOR
+          value: projects/rag-data-processor/locations/us/processors/2a004411597fc691
+        - name: LOG_EXECUTION_ID
+          value: 'true'
+        - name: OUTPUT_BUCKET
+          value: summary-main-rag-data-processor
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+  traffic:
+  - percent: 100
+    latestRevision: true
